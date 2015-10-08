@@ -28,7 +28,7 @@ create_dir(MVSO_destination_folder)
 
 for file_name in os.listdir(CSV_folder_path):
     # Check if the file is a CSV file
-    if not file_name.__endswith__('.csv'):
+    if not file_name.endswith('.csv'):
         continue
 
     print '\n\nDownloading images in ' + file_name + '\n'
