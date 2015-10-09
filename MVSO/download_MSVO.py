@@ -54,11 +54,12 @@ for file_name in os.listdir(CSV_folder_path):
         file_path = os.path.join(anp_dir, url.split('/')[-1])
         # Download image
         try:
-            f = urllib2.urlopen(url)
-            with open(file_path, "wb") as downloaded_file:
-                downloaded_file.write(f.read())
-            # Random wait to avoid Flickr banning us
-            time.sleep(0.2)
+            if not os.path.exists(file_path):  # Avoid downloading already existing files twice
+                f = urllib2.urlopen(url)
+                with open(file_path, "wb") as downloaded_file:
+                    downloaded_file.write(f.read())
+                # Random wait to avoid Flickr banning us
+                time.sleep(0.02)
             index += 1
         except:
             failed_images += 1
@@ -67,3 +68,5 @@ for file_name in os.listdir(CSV_folder_path):
 
     # Close file
     csv_file.close()
+
+    print 'Failed images: ' + str(failed_images)
