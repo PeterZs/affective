@@ -21,8 +21,8 @@ if len(sys.argv) >= 3:
         MVSO_destination_folder = str(sys.argv[2])
         if len(sys.argv) >= 4:
             csv_file_list = list()
-            for i in range(1,len(sys.argv)):
-                csv_file_list.append(str(sys.argv[2+i]) + '.csv')
+            for i in range(3,len(sys.argv)):
+                csv_file_list.append(str(sys.argv[i]) + '.csv')
         else:
             csv_file_list = os.listdir(CSV_folder_path)
     except:
