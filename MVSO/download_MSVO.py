@@ -19,6 +19,12 @@ if len(sys.argv) >= 3:
     try:
         CSV_folder_path = str(sys.argv[1])
         MVSO_destination_folder = str(sys.argv[2])
+        if len(sys.argv) >= 4:
+            csv_file_list = list()
+            for i in range(1,len(sys.argv)):
+                csv_file_list.append(str(sys.argv[2+i]) + '.csv')
+        else:
+            csv_file_list = os.listdir(CSV_folder_path)
     except:
         sys.exit('The given arguments are not correct')
 else:
@@ -26,7 +32,7 @@ else:
 
 create_dir(MVSO_destination_folder)
 
-for file_name in os.listdir(CSV_folder_path):
+for file_name in csv_file_list:
     # Check if the file is a CSV file
     if not file_name.endswith('.csv'):
         continue
