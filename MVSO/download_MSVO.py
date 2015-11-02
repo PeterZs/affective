@@ -69,7 +69,7 @@ for file_name in csv_file_list:
             index += 1
         except:
             failed_images += 1
-        if index%20 == 0:
+        if index%1000 == 0:
             print '[' + language + '] Images processed: ' + str(index)
 
     # Close file
