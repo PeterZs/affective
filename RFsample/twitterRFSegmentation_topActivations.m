@@ -8,6 +8,7 @@ N_images = 5;
 
 %% Load unitID from text file
 unitID = textread(unitSelect_file, '%d');   % conv5 unit
+disp(['UnitID: ' num2str(unitID)])
 
 
 %% Load text file
@@ -16,6 +17,7 @@ maxValFeatureMaps = [];
 
 
 %% Load feature maps for unitID and compute their sum
+disp('Loading feature maps...')
 for i=1:size(images,1)
     curFeatureMap = load([features_folder cast(images(i),'char') '.mat']); % the extracted feature map for unitID at conv5
     curFeatureMap = curFeatureMap.featureMap(unitID,:,:);  % select activation from unitID
@@ -24,12 +26,14 @@ end
 
 
 %% Sort images so only the ones with the top activations are displayed
+disp('Sorting top activations')
 [values, sorted_indexes] = sort(maxValFeatureMaps, 'descending');
 
 fig = figure('visible','off');
 
 
 %% Estimate RF for the images that generated the highest unitID activations
+disp('Estimating RF...')
 for j=1:+N_images
     curImg = imread([images_folder cast(images(images(sorted_indexes(j))),'char') '.jpg']);
     curImg = im2double(imresize(curImg,para.imageScale));
@@ -48,4 +52,7 @@ for j=1:+N_images
 end
 
 %% Save figure
+disp('Saving figure...')
 saveas(fig,'/imatge/vcampos/work/fig','jpg');
+
+disp('Done!')
