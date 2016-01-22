@@ -27,7 +27,7 @@ end
 
 %% Sort images so only the ones with the top activations are displayed
 disp('Sorting top activations')
-[values, sorted_indexes] = sort(maxValFeatureMaps, 'descending');
+[values, sorted_indexes] = sort(maxValFeatureMaps, 'descend');
 
 fig = figure('visible','off');
 
