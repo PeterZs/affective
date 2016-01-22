@@ -35,7 +35,7 @@ fig = figure('visible','off');
 %% Estimate RF for the images that generated the highest unitID activations
 disp('Estimating RF...')
 for j=1:+N_images
-    curImg = imread([images_folder cast(images(images(sorted_indexes(j))),'char') '.jpg']);
+    curImg = imread([images_folder cast(images(sorted_indexes(j)),'char') '.jpg']);
     curImg = im2double(imresize(curImg,para.imageScale));
     curFeatureMap = load([features_folder cast(images(sorted_indexes(j)),'char') '.mat']); % the extracted feature map for unitID at conv5
     curFeatureMap = curFeatureMap.featureMap(unitID,:,:);
