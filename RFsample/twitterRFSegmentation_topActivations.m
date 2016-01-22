@@ -2,8 +2,12 @@
 images_folder = '/imatge/vcampos/work/twitter_dataset/images/';
 features_folder = '/imatge/vcampos/work/twitter_dataset/feature_maps_mat/test1/conv5/';
 ground_truth_file = '/imatge/vcampos/work/twitter_dataset/feature_maps_mat/test1.txt';
-unitID = 49;                    % conv5 unit
+unitSelect_file = 'unitID.txt';
 N_images = 5;
+
+
+%% Load unitID from text file
+unitID = textread(unitSelect_file, '%d');   % conv5 unit
 
 
 %% Load text file
