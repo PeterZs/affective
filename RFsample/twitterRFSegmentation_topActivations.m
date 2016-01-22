@@ -58,7 +58,7 @@ for j=1:+N_images
     IDX_region = find(curMask>0);
     curSegmentation = repmat(curMask,[1 1 3]).*curImg+0.2*(1- repmat(curMask,[1 1 3])).*curImg;
 
-    imwrite(curSegmentation, ['/imatge/vcampos/work/RF_results/unit' num2str(unitID) '_' num2str(j) '.jpg']);
+    imwrite(curSegmentation, ['/imatge/vcampos/work/RF_results/ImageNet/unit' num2str(unitID) '_' num2str(j) '.jpg']);
 end
 
 disp('Done!')
