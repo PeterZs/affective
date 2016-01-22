@@ -42,8 +42,6 @@ maskRF = generateRF( para);
 
 thresholdSegmentation = 0.5;    % segmentationthreshold
 
-fig = figure('visible','off');
-
 %% Estimate RF for the images that generated the highest unitID activations
 disp('Estimating RF...')
 for j=1:+N_images
@@ -60,13 +58,7 @@ for j=1:+N_images
     IDX_region = find(curMask>0);
     curSegmentation = repmat(curMask,[1 1 3]).*curImg+0.2*(1- repmat(curMask,[1 1 3])).*curImg;
 
-    size(curImg)
-
-    subplot(1,N_images,j),image(curSegmentation);
+    imwrite(curSegmentation, ['/imatge/vcampos/work/RF_results/unit' num2str(unitID) '_' num2str(j) '.jpg']);
 end
-
-%% Save figure
-disp('Saving figure...')
-saveas(fig,'/imatge/vcampos/work/fig','jpg');
 
 disp('Done!')
