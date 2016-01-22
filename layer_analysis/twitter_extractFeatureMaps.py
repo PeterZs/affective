@@ -1,6 +1,6 @@
 import os, sys, time
 import numpy as np
-sys.path.insert(0, '/imatge/vcampos/work/pyxel/tools/affective')
+sys.path.insert(0, '/imatge/vcampos/work/affective')
 import CNN_tools
 
 ''' GLOBAL VARIABLES '''
@@ -20,9 +20,9 @@ if (len(sys.argv)>=2):
 else:
     sys.exit('Not enough arguments. Layer name expected.')
 
-MODEL_FILE = '/imatge/vcampos/work/twitter_finetuning/5-fold_cross-validation/test' + SUBSET + '/deploy.prototxt'
-PRETRAINED = '/imatge/vcampos/work/twitter_finetuning/5-fold_cross-validation/trained/twitter_finetuned_test' + SUBSET + '_iter_180.caffemodel'
-SAVE_PATH = '/imatge/vcampos/work/twitter_dataset/feature_maps/test' + SUBSET + '/'
+MODEL_FILE = '/imatge/vcampos/work/twitter_finetuning/places_5-fold_CV/test' + SUBSET + '/deploy.prototxt'
+PRETRAINED = '/imatge/vcampos/work/twitter_finetuning/places_5-fold_CV/trained/twitter_finetuned_test' + SUBSET + '_iter_180.caffemodel'
+SAVE_PATH = '/imatge/vcampos/work/twitter_dataset/feature_maps_places/test' + SUBSET + '/'
 
 
 
