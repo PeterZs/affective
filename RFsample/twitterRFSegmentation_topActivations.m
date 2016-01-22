@@ -29,6 +29,19 @@ end
 disp('Sorting top activations')
 [values, sorted_indexes] = sort(maxValFeatureMaps, 'descend');
 
+
+%% generate uniform receptive field
+RFsize = 65;                    % the average actual size of conv5, you could change it to get a tighter segmentation
+para.gridScale = [13 13];       % conv5 of alexNet feature map
+para.imageScale = [227 227];    % the input image size
+para.RFsize = [RFsize RFsize];  
+para.plotPointer = 0;           % whether to show the generated RF
+maskRF = generateRF( para);
+
+
+
+thresholdSegmentation = 0.5;    % segmentationthreshold
+
 fig = figure('visible','off');
 
 
