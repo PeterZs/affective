@@ -22,7 +22,7 @@ maskRF = generateRF( para);
 
 thresholdSegmentation = 0.5;    % segmentationthreshold
 
-fig = figure('visible','on');
+fig = figure('visible’,’off’);
 
 for j=1:+N_images
     i = first_image+j;
