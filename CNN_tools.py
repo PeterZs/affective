@@ -86,3 +86,25 @@ def predict(net, image_file, ov=False):
     input_image = caffe.io.load_image(image_file)
     prediction = net.predict([input_image], oversample=ov)
     return prediction
+
+
+def convert_twitter_weights_to_fully_conv(original_deploy, original_caffemodel, fc_deploy, fc_caffemodel_save_path):
+    # Load the original network and extract the fully connected layers' parameters.
+    net = caffe.Net(original_deploy, original_caffemodel, caffe.TEST)
+    params = ['fc6', 'fc7', 'fc8_twitter']
+    # fc_params = {name: (weights, biases)}
+    fc_params = {pr: (net.params[pr][0].data, net.params[pr][1].data) for pr in params}
+
+    # Load the fully convolutional network to transplant the parameters.
+    net_full_conv = caffe.Net(fc_deploy, original_caffemodel, caffe.TEST)
+    params_full_conv = ['fc6-conv', 'fc7-conv', 'fc8_twitter-conv']
+    # conv_params = {name: (weights, biases)}
+    conv_params = {pr: (net_full_conv.params[pr][0].data, net_full_conv.params[pr][1].data) for pr in params_full_conv}
+
+    # Trasplant weights
+    for pr, pr_conv in zip(params, params_full_conv):
+        conv_params[pr_conv][0].flat = fc_params[pr][0].flat  # flat unrolls the arrays
+        conv_params[pr_conv][1][...] = fc_params[pr][1]
+
+    # Save weights (caffemodel) for the fc net
+    net_full_conv.save(fc_caffemodel_save_path)
