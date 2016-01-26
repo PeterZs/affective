@@ -16,16 +16,18 @@ for path, dirs, files in os.walk(PREDICTION_PATH):
     for fileName in files:
         # Get path to the image
         image_name = fileName.split('.',2)[0] + '.jpg'
-        image_path = os.path.join(path,image_name)
+        image_path = os.path.join(IMAGES_PATH,image_name)
 
         # Load prediction
         prediction = np.load(os.path.join(path,fileName))
-        heatmap = np.zeros(3, prediction.shape[1], prediction.shape[2]) # BGR
-        heatmap[1] = 255*prediction[0] # positive (0) in green
-        heatmap[2] = 255*prediction[1] # negative (1) in red
+        heatmap = np.zeros((prediction.shape[1], prediction.shape[2], 3)) # BGR
+        heatmap[:,:,1] = 255*prediction[0] # positive (0) in green
+        heatmap[:,:,2] = 255*prediction[1] # negative (1) in red
 
         # Load image
         img = cv2.imread(image_path)
+        if img is None:
+		pass
 
         # Resize heatmap so it fits the image
         heatmap = cv2.resize(heatmap, tuple(img.shape[1::-1]))
@@ -34,7 +36,7 @@ for path, dirs, files in os.walk(PREDICTION_PATH):
         output = 0.5*img + 0.5*heatmap
 
         # Save result
-        cv2.imwrite(os.path.join(OUTPUT_PATH,image_name))
+        cv2.imwrite(os.path.join(OUTPUT_PATH,image_name), output)
 
         # Print progress
         counter += 1
