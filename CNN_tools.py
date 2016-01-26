@@ -90,13 +90,15 @@ def predict(net, image_file, ov=False):
 
 def convert_twitter_weights_to_fully_conv(original_deploy, original_caffemodel, fc_deploy, fc_caffemodel_save_path):
     # Load the original network and extract the fully connected layers' parameters.
-    net = caffe.Net(original_deploy, original_caffemodel, caffe.TEST)
+    net = caffe.Net(original_deploy, original_caffemodel)
+    net.set_phase_test()
     params = ['fc6', 'fc7', 'fc8_twitter']
     # fc_params = {name: (weights, biases)}
     fc_params = {pr: (net.params[pr][0].data, net.params[pr][1].data) for pr in params}
 
     # Load the fully convolutional network to transplant the parameters.
-    net_full_conv = caffe.Net(fc_deploy, original_caffemodel, caffe.TEST)
+    net_full_conv = caffe.Net(fc_deploy, original_caffemodel)
+    net_full_conv.set_phase_test()
     params_full_conv = ['fc6-conv', 'fc7-conv', 'fc8_twitter-conv']
     # conv_params = {name: (weights, biases)}
     conv_params = {pr: (net_full_conv.params[pr][0].data, net_full_conv.params[pr][1].data) for pr in params_full_conv}
