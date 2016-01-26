@@ -7,7 +7,7 @@ import sys
 import numpy as np
 
 # Make sure that caffe is on the python path:
-caffe_root = '/usr/local/opt/caffe/'
+caffe_root = '/usr/local/opt/caffe-2015-10/'
 sys.path.insert(0, caffe_root + 'python')
 
 import caffe
@@ -36,8 +36,7 @@ for subset in SUBSETS:
         instanceList.append(line)
 
     # Load fully convolutional network
-    net_full_conv = caffe.Net(deploy_path, caffemodel_path)
-    net_full_conv.set_phase_test()
+    net_full_conv = caffe.Net(deploy_path, caffemodel_path, caffe.TEST)
 
     # Configure preprocessing
     transformer = caffe.io.Transformer({'data': net_full_conv.blobs['data'].data.shape})
@@ -59,7 +58,7 @@ for subset in SUBSETS:
         # Make a forward pass
         out = net_full_conv.forward_all(data=np.asarray([transformer.preprocess('data', im)]))
 
-        print out['prob'][0].shape
+        np.save('/imatge/vcampos/work/fc_heatmap_test', out['prob'][0])
 
     file.close()
 
