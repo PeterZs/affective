@@ -58,7 +58,9 @@ for subset in SUBSETS:
         # Make a forward pass
         out = net_full_conv.forward_all(data=np.asarray([transformer.preprocess('data', im)]))
 
-        np.save('/imatge/vcampos/work/fc_heatmap_test', out['prob'][0])
+        # Save the 2x8x8 prediction
+        np.save('/imatge/vcampos/work/twitter_dataset/fully_conv/predictions/' + image_path.split('.',2)[0],
+                out['prob'][0])
 
     file.close()
 
