@@ -1,4 +1,5 @@
 import os
+import sys
 import cv2
 import numpy as np
 import CNN_tools
@@ -27,10 +28,10 @@ for path, dirs, files in os.walk(PREDICTION_PATH):
         # Load image
         img = cv2.imread(image_path)
         if img is None:
-		pass
+		  pass
 
         # Resize heatmap so it fits the image
-        heatmap = cv2.resize(heatmap, tuple(img.shape[1::-1]))
+        heatmap = cv2.resize(heatmap, tuple(img.shape[1::-1]), interpolation=cv2.INTER_NEAREST)
 
         # Combine image and heatmap
         output = 0.5*img + 0.5*heatmap
@@ -42,3 +43,4 @@ for path, dirs, files in os.walk(PREDICTION_PATH):
         counter += 1
         if counter%20 == 0:
             print 'Processed images: ' + str(counter)
+            sys.stdout.flush()
