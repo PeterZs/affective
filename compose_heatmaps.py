@@ -21,8 +21,8 @@ for path, dirs, files in os.walk(PREDICTION_PATH):
         # Load prediction
         prediction = np.load(os.path.join(path,fileName))
         heatmap = np.zeros((prediction.shape[1], prediction.shape[2], 3)) # BGR
-        heatmap[:,:,1] = 255*prediction[0] # positive (0) in green
-        heatmap[:,:,2] = 255*prediction[1] # negative (1) in red
+        heatmap[:,:,1] = 255*prediction[1] # positive (1) in green
+        heatmap[:,:,2] = 255*prediction[0] # negative (0) in red
 
         # Load image
         img = cv2.imread(image_path)
