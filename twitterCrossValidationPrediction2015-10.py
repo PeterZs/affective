@@ -13,14 +13,37 @@ sys.path.insert(0, caffe_root + 'python')
 import caffe
 
 
+if (len(sys.argv)>=2):
+    try:
+        model = str(sys.argv[1])
+    except:
+        sys.exit('The given arguments are not correct')
+else:
+    sys.exit("Not enough arguments. Run 'python twitterCrossValidationPrediction2015-10 model'")
+
+
 SUBSETS = ['test1','test2','test3','test4','test5']
 MEAN_FILE = '/imatge/vcampos/caffe/python/caffe/imagenet/ilsvrc_2012_mean.npy'
 ACCURACIES = []
 OUTPUT_STRING = ""
 
+
+if model == 'imagenet':
+    model_folder = '5-fold_cross-validation'
+elif model == 'places':
+    MEAN_FILE = '/imatge/vcampos/caffe/models/places/places205CNN_mean.npy'
+    model_folder = 'places_5-fold_CV'
+elif model == 'deepsentibank':
+    model_folder = 'deepsentibank_5-fold_CV'
+elif model == 'mvso_en' or model == 'mvso_sp' or model == 'mvso_fr' or model == 'mvso_it' or model == 'mvso_ch':
+    model_folder = model + '5-fold_CV'
+else:
+    sys.exit("The requested model is not valid")
+
+
 for subset in SUBSETS:
-    deploy_path = '/imatge/vcampos/work/twitter_finetuning/mvso_en_5-fold_CV/'+subset+'/deploy.prototxt'
-    caffemodel_path = '/imatge/vcampos/work/twitter_finetuning/mvso_en_5-fold_CV/trained/twitter_finetuned_'+subset+'_iter_180.caffemodel'
+    deploy_path = '/imatge/vcampos/work/twitter_finetuning/'+model_folder+'/'+subset+'/deploy.prototxt'
+    caffemodel_path = '/imatge/vcampos/work/twitter_finetuning/'+model_folder+'/trained/twitter_finetuned_'+subset+'_iter_180.caffemodel'
     GROUND_TRUTH = '/imatge/vcampos/work/twitter_dataset/ground_truth/5-fold_cross-validation/'+subset+'/test.txt'
     instanceList = []
     correctLabels = 0
@@ -86,7 +109,7 @@ for subset in SUBSETS:
             positivePredictions += 1
 
         counter += 1
-        if counter%40 == 0
+        if counter%40 == 0:
             print subset + ', ' + str(counter)
             sys.stdout.flush()
 
