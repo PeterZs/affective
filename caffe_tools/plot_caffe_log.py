@@ -140,3 +140,49 @@ if __name__ == "__main__":
   plt.show()
 
   plt.savefig(output_path + args.output_files_prefix + '_accuracy.png')
+
+
+  # Plot accuracy+loss
+  plt.clf()  # clear the previous plot
+  host = host_subplot(111)#, axes_class=AA.Axes)
+  plt.subplots_adjust(right=0.75)
+
+  par1 = host.twinx()
+
+  host.set_xlabel("Iterations")
+  host.set_ylabel("Loss")
+  par1.set_ylabel("Accuracy")
+ 
+
+  ncol = 0
+  if len(training_loss) > 0:
+    p1, = host.plot(training_iterations, training_loss, label="Training loss")
+    ncol += 1
+  if len(test_loss) > 0:
+    p3, = host.plot(test_iterations, test_loss, label="Validation loss")
+    ncol += 1
+  if len(training_accuracy) > 0:
+    p2, = par1.plot(training_iterations, training_accuracy, label="Training accuracy")
+    ncol += 1
+  if len(test_accuracy) > 0:
+    p4, = par1.plot(test_iterations, test_accuracy, label="Validation accuracy")
+    ncol += 1
+
+  #host.legend(loc=4)
+
+  #host.axis["left"].label.set_color(p1.get_color())
+  #par1.axis["right"].label.set_color(p2.get_color())
+
+  # Shrink current axis's height by 10% on the bottom
+  box = host.get_position()
+  host.set_position([box.x0, box.y0 + box.height * 0.1,
+                   box.width, box.height * 0.9])
+
+  # Put a legend below current axis
+  host.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05),
+            fancybox=True, shadow=True, ncol=ncol/2)
+
+  plt.draw()
+  plt.show()
+
+  plt.savefig(output_path + args.output_files_prefix + '_both.png')
