@@ -35,7 +35,7 @@ elif model == 'places':
     model_folder = 'places_5-fold_CV'
 elif model == 'deepsentibank':
     model_folder = 'deepsentibank_5-fold_CV'
-elif model == 'mvso_en' or model == 'mvso_sp' or model == 'mvso_fr' or model == 'mvso_it' or model == 'mvso_ch':
+elif model == 'mvso_en' or model == 'mvso_sp' or model == 'mvso_fr' or model == 'mvso_it' or model == 'mvso_ch' or model=='mvso_ge':
     model_folder = model + '_5-fold_CV'
 else:
     sys.exit("The requested model is not valid")
