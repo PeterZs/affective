@@ -19,7 +19,7 @@ if (len(sys.argv)>=2):
     except:
         sys.exit('The given arguments are not correct')
 else:
-    sys.exit("Not enough arguments. Run 'python twitterCrossValidationPrediction2015-10 model'")
+    sys.exit("Not enough arguments. Run 'python twitterClassifyDecissions.py model'")
 
 
 SUBSETS = ['test1','test2','test3','test4','test5']
@@ -38,8 +38,8 @@ elif model == 'places':
     model_folder = 'places_5-fold_CV'
 elif model == 'deepsentibank':
     model_folder = 'deepsentibank_5-fold_CV'
-elif model == 'mvso_en' or model == 'mvso_sp' or model == 'mvso_fr' or model == 'mvso_it' or model == 'mvso_ch':
-    model_folder = model + '5-fold_CV'
+elif model == 'mvso_en' or model == 'mvso_sp' or model == 'mvso_fr' or model == 'mvso_it' or model == 'mvso_ge' or model == 'mvso_ch':
+    model_folder = model + '_5-fold_CV'
 else:
     sys.exit("The requested model is not valid")
 
