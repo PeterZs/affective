@@ -2,15 +2,19 @@ import os
 import sys
 import cv2
 import numpy as np
-import CNN_tools
 
-PREDICTION_PATH = '/imatge/vcampos/work/twitter_dataset/fully_conv/predictions/'
+
+if (len(sys.argv)>=2):
+    try:
+        model = str(sys.argv[1])
+    except:
+        sys.exit('The given arguments are not correct')
+else:
+    sys.exit("Not enough arguments. Run 'python compose_heatmaps.py model'")
+
+PREDICTION_PATH = '/imatge/vcampos/work/twitter_dataset/fully_conv/'+model+'/predictions/'
 IMAGES_PATH = '/imatge/vcampos/work/twitter_dataset/images/resized/'
-OUTPUT_PATH = '/imatge/vcampos/work/twitter_dataset/fully_conv/composed_heatmaps/'
-
-
-# Create output directory
-CNN_tools.createDir(OUTPUT_PATH)
+OUTPUT_PATH = '/imatge/vcampos/work/twitter_dataset/fully_conv/'+model+'/composed_heatmaps/'
 
 counter = 0
 for path, dirs, files in os.walk(PREDICTION_PATH):

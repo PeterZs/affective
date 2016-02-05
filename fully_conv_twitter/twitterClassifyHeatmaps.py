@@ -41,7 +41,7 @@ while(True):
     if (len(line)==0):
         break
     # Move image
-    shutil.move(images_path+'TP'+line, os.path.join(images_path, 'TP/')+line)
+    shutil.move(images_path+line, os.path.join(images_path, 'TP/')+line)
 
 while(True):
     line = tn.readline()
@@ -51,7 +51,7 @@ while(True):
     if (len(line)==0):
         break
     # Move image
-    shutil.move(images_path+'TN'+line, os.path.join(images_path, 'TN/')+line)
+    shutil.move(images_path+line, os.path.join(images_path, 'TN/')+line)
 
 while(True):
     line = fp.readline()
@@ -61,7 +61,7 @@ while(True):
     if (len(line)==0):
         break
     # Move image
-    shutil.move(images_path+'FP'+line, os.path.join(images_path, 'FP/')+line)
+    shutil.move(images_path+line, os.path.join(images_path, 'FP/')+line)
 
 while(True):
     line = fn.readline()
@@ -71,7 +71,7 @@ while(True):
     if (len(line)==0):
         break
     # Move image
-    shutil.move(images_path+'FN'+line, os.path.join(images_path, 'FN/')+line)
+    shutil.move(images_path+line, os.path.join(images_path, 'FN/')+line)
 
 # Close files
 tp.close()
