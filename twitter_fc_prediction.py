@@ -17,10 +17,34 @@ SUBSETS = ['test1','test2','test3','test4','test5']
 MEAN_FILE = '/imatge/vcampos/caffe/python/caffe/imagenet/ilsvrc_2012_mean.npy'
 #MEAN_FILE = '/imatge/vcampos/caffe/models/places/places205CNN_mean.npy'
 
+if (len(sys.argv)>=3):
+    try:
+        model = str(sys.argv[1])
+        output_folder = str(sys.argv[2])
+        if output_folder[-1] != '/':
+            output_folder += '/'
+    except:
+        sys.exit('The given arguments are not correct')
+else:
+    sys.exit("Not enough arguments. Run 'python convert_twitter_fc.py model output_folder'")
+
+
+if model == 'imagenet':
+    model_folder = '5-fold_cross-validation'
+elif model == 'places':
+    MEAN_FILE = '/imatge/vcampos/caffe/models/places/places205CNN_mean.npy'
+    model_folder = 'places_5-fold_CV'
+elif model == 'deepsentibank':
+    model_folder = 'deepsentibank_5-fold_CV'
+elif model == 'mvso_en' or model == 'mvso_sp' or model == 'mvso_fr' or model == 'mvso_it' or model == 'mvso_ch' or model=='mvso_ge':
+    model_folder = model + '_5-fold_CV'
+else:
+    sys.exit("The requested model is not valid")
+
 
 for subset in SUBSETS:
-    deploy_path = '/imatge/vcampos/work/twitter_finetuning/5-fold_cross-validation/'+subset+'/deploy_conv.prototxt'
-    caffemodel_path = '/imatge/vcampos/work/twitter_finetuning/5-fold_cross-validation/trained/twitter_finetuned_'+subset+'_iter_180_conv.caffemodel'
+    deploy_path = '/imatge/vcampos/work/twitter_finetuning/'+model_folder+'/'+subset+'/deploy_conv.prototxt'
+    caffemodel_path = '/imatge/vcampos/work/twitter_finetuning/'+model_folder+'/trained/twitter_finetuned_'+subset+'_iter_180_conv.caffemodel'
     GROUND_TRUTH = '/imatge/vcampos/work/twitter_dataset/ground_truth/5-fold_cross-validation/'+subset+'/test.txt'
 
     file = open(GROUND_TRUTH,"r")
@@ -60,8 +84,7 @@ for subset in SUBSETS:
 
         # Save the 2x8x8 prediction
         image_name = image_path.split('/')[-1]
-        np.save('/imatge/vcampos/work/twitter_dataset/fully_conv/predictions/' + image_name.split('.',2)[0],
-                out['prob'][0])
+        np.save(output_folder + image_name.split('.',2)[0], out['prob'][0])
 
     file.close()
 
