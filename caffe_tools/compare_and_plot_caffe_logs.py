@@ -15,6 +15,7 @@ from pylab import figure, show, legend, ylabel
 
 from mpl_toolkits.axes_grid1 import host_subplot
 
+colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
 
 all_training_losses = []
 all_training_accuracies = []
@@ -107,19 +108,19 @@ if __name__ == "__main__":
 
   # Plot loss
   host = host_subplot(111)#, axes_class=AA.Axes)
-  plt.subplots_adjust(right=0.75)
+  #plt.subplots_adjust(right=0.75)
 
   host.set_xlabel("Iterations")
   host.set_ylabel("Loss")
  
   for (i, training_loss) in enumerate(all_training_losses):
     if len(training_loss) > 0:
-      host.plot(all_training_iterations[i], training_loss, label="Train " + models_list[i])
+      host.plot(all_training_iterations[i], training_loss, colors[i%len(colors)], label=models_list[i] + " (training)")
   for (i, test_loss) in enumerate(all_validation_losses):
     if len(test_loss) > 0:
-      host.plot(all_validation_iterations[i], test_loss, label="Validation " + models_list[i])
+      host.plot(all_validation_iterations[i], test_loss, colors[i%len(colors)]+'--', label=models_list[i] + " (validation)")
 
-  host.legend(loc=1)
+  host.legend(loc=1, prop={'size':12})
 
   plt.draw()
   plt.show()
@@ -131,19 +132,19 @@ if __name__ == "__main__":
   # Plot accuracy
   plt.clf()
   host = host_subplot(111)#, axes_class=AA.Axes)
-  plt.subplots_adjust(right=0.75)
+  #plt.subplots_adjust(right=0.75)
 
   host.set_xlabel("Iterations")
   host.set_ylabel("Accuracy")
  
   for (i, training_accuracy) in enumerate(all_training_accuracies):
     if len(training_accuracy) > 0:
-      host.plot(all_training_iterations[i], training_accuracy, label="Train " + models_list[i])
+      host.plot(all_training_iterations[i], training_accuracy, colors[i%len(colors)], label=models_list[i] + " (training)")
   for (i, test_accuracy) in enumerate(all_validation_accuracies):
     if len(test_accuracy) > 0:
-      host.plot(all_validation_iterations[i], test_accuracy, label="Validation " + models_list[i])
+      host.plot(all_validation_iterations[i], test_accuracy, colors[i%len(colors)]+'--', label=models_list[i] + " (validation)")
 
-  host.legend(loc=4)
+  host.legend(loc=4, prop={'size':12})
 
   plt.draw()
   plt.show()
@@ -166,19 +167,19 @@ if __name__ == "__main__":
   ncol = 0
   for (i, training_loss) in enumerate(all_training_losses):
     if len(training_loss) > 0:
-      host.plot(all_training_iterations[i], training_loss, label="Training loss " + models_list[i])
+      host.plot(all_training_iterations[i], training_loss, colors[i%len(colors)], label=models_list[i] + "\nloss (training)")
       ncol += 1
   for (i, test_loss) in enumerate(all_validation_losses):
     if len(test_loss) > 0:
-      host.plot(all_validation_iterations[i], test_loss, label="Validation loss " + models_list[i])
+      host.plot(all_validation_iterations[i], test_loss,  colors[i%len(colors)]+'--', label=models_list[i] + "\nloss (validation)")
       ncol += 1
   for (i, training_accuracy) in enumerate(all_training_accuracies):
     if len(training_accuracy) > 0:
-      par1.plot(all_training_iterations[i], training_accuracy, label="Training accuracy " + models_list[i])
+      par1.plot(all_training_iterations[i], training_accuracy, colors[i%len(colors)]+'-.', label=models_list[i] + "\naccuracy (training)")
       ncol += 1
   for (i, test_accuracy) in enumerate(all_validation_accuracies):
     if len(test_accuracy) > 0:
-      par1.plot(all_validation_iterations[i], test_accuracy, label="Validation accuracy " + models_list[i])
+      par1.plot(all_validation_iterations[i], test_accuracy, colors[i%len(colors)]+':', label=models_list[i] + "\naccuracy (validation)")
       ncol += 1
 
   #host.legend(loc=4)
@@ -191,7 +192,7 @@ if __name__ == "__main__":
   host.set_position([box.x0, box.y0, box.width * 0.8, box.height])
 
   # Put a legend to the right of the current axis
-  host.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+  host.legend(loc='center left', bbox_to_anchor=(1.15, 0.5), prop={'size':10})
 
   plt.draw()
   plt.show()
