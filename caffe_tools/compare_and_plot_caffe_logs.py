@@ -36,6 +36,11 @@ if __name__ == "__main__":
   file_list = args.files #[str(item) for item in args.files.split(' ')]
   models_list = args.models #[str(item) for item in args.models.split(' ')]
 
+  if len(models_list) > 4:
+    ncols_ind = 2
+  else:
+    ncols_ind = 1
+
   output_path = args.output_path
   if output_path[-1] != '/':
     output_path = output_path + '/'
@@ -120,7 +125,7 @@ if __name__ == "__main__":
     if len(test_loss) > 0:
       host.plot(all_validation_iterations[i], test_loss, colors[i%len(colors)]+'--', label=models_list[i] + " (validation)")
 
-  host.legend(loc=1, prop={'size':12})
+  host.legend(loc=1, prop={'size':12}, ncol=ncols_ind)
 
   plt.draw()
   plt.show()
@@ -144,7 +149,7 @@ if __name__ == "__main__":
     if len(test_accuracy) > 0:
       host.plot(all_validation_iterations[i], test_accuracy, colors[i%len(colors)]+'--', label=models_list[i] + " (validation)")
 
-  host.legend(loc=4, prop={'size':12})
+  host.legend(loc=4, prop={'size':12}, ncol=ncols_ind)
 
   plt.draw()
   plt.show()
