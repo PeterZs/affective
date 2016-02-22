@@ -13,13 +13,19 @@ sys.path.insert(0, caffe_root + 'python')
 import caffe
 
 
-if (len(sys.argv)>=2):
+if (len(sys.argv)>=4):
     try:
-        model = str(sys.argv[1])
+        agrees = int(sys.argv[1])
+        model = str(sys.argv[2])
+        ov = int(sys.argv[3])
     except:
-        sys.exit('The given arguments are not correct')
+        sys.exit("The given arguments are not correct. Run 'python twitterCrossValidationPrediction2015-10 agrees model oversampling(0,1)'")
 else:
-    sys.exit("Not enough arguments. Run 'python twitterCrossValidationPrediction2015-10 model'")
+    sys.exit("Not enough arguments. Run 'python twitterCrossValidationPrediction2015-10 agrees model oversampling(0,1)'")
+
+
+if (agrees != 3) and (agrees != 4) and (agrees != 5):
+    sys.exit("'agrees' must be 3, 4 or 5")
 
 
 SUBSETS = ['test1','test2','test3','test4','test5']
@@ -29,7 +35,12 @@ OUTPUT_STRING = ""
 
 
 if model == 'imagenet':
-    model_folder = '5-fold_cross-validation'
+    if agrees == 3:
+        model_folder = 'three_agree-5-fold_cross-validation'
+    elif agrees == 4:
+        model_folder = 'four_agree-5-fold_cross-validation'
+    elif agrees == 5:
+        model_folder = '5-fold_cross-validation'
 elif model == 'places':
     MEAN_FILE = '/imatge/vcampos/caffe/models/places/places205CNN_mean.npy'
     model_folder = 'places_5-fold_CV'
@@ -43,10 +54,29 @@ else:
     sys.exit("The requested model is not valid")
 
 
+if agrees == 3:
+    iter = 255
+    ground_truth_suffix = '_three_agrees'
+elif agrees == 4:
+    iter = 225
+    ground_truth_suffix = '_four_agrees'
+elif agrees == 5:
+    iter = 180
+    ground_truth_suffix = ''
+
+
+if ov == 0:
+    oversampling = False
+elif ov == 1:
+    oversampling = True
+else:
+    sys.exit("oversampling must be 0 or 1")
+
+
 for subset in SUBSETS:
     deploy_path = '/imatge/vcampos/work/twitter_finetuning/'+model_folder+'/'+subset+'/deploy.prototxt'
-    caffemodel_path = '/imatge/vcampos/work/twitter_finetuning/'+model_folder+'/trained/twitter_finetuned_'+subset+'_iter_180.caffemodel'
-    GROUND_TRUTH = '/imatge/vcampos/work/twitter_dataset/ground_truth/5-fold_cross-validation/'+subset+'/test.txt'
+    caffemodel_path = '/imatge/vcampos/work/twitter_finetuning/'+model_folder+'/trained/twitter_finetuned_'+subset+'_iter_'+str(iter)+'.caffemodel'
+    GROUND_TRUTH = '/imatge/vcampos/work/twitter_dataset/ground_truth/5-fold_cross-validation'+ground_truth_suffix+'/'+subset+'/test.txt'
     instanceList = []
     correctLabels = 0
     incorrectLabels = 0
@@ -87,7 +117,7 @@ for subset in SUBSETS:
         im = caffe.io.load_image(image_path)
 
         # Make a forward pass and get the score
-        prediction = net.predict([im], oversample=True)
+        prediction = net.predict([im], oversample=oversampling)
 
         #print '-------------------'
         #print prediction.shape
