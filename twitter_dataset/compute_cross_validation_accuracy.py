@@ -2,27 +2,24 @@ import os
 import sys
 import numpy as np
 import caffe
+import argparse
 
-if len(sys.argv) >= 2:
-    try:
-        ov = int(sys.argv[1])
-    except:
-        sys.exit(
-            "The given arguments are not correct. Run 'python compute_cross_validation_prediction.py oversampling(0,1)'")
+
+parser = argparse.ArgumentParser(description='Computes 5-fold cross-validation results over Twitter five-agrees dataset')
+parser.add_argument('-ov', '--oversampling', help='Enables (1) or disables (0) oversampling')
+args = parser.parse_args()
+
+if args.oversampling == 0:
+    oversampling = False
+elif args.oversampling == 1:
+    oversampling = True
 else:
-    sys.exit("Not enough arguments. Run 'python compute_cross_validation_prediction.py oversampling(0 or 1)'")
+    sys.exit("oversampling must be 0 or 1")
 
 subsets = ['test1', 'test2', 'test3', 'test4', 'test5']
 mean_file = 'ilsvrc_2012_mean.npy'
 accuracies = []
 output_string = ""
-
-if ov == 0:
-    oversampling = False
-elif ov == 1:
-    oversampling = True
-else:
-    sys.exit("oversampling must be 0 or 1")
 
 for subset in subsets:
     # Update paths for this subset
