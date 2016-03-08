@@ -26,9 +26,9 @@ else:
 
 for subset in subsets:
     # Update paths for this subset
-    deploy_path = '../sentiment_deploy.prototxt'
-    caffemodel_path = '../twitter_finetuned_' + subset + '_iter_180.caffemodel'
-    ground_truth = '../ground_truth/' + subset + '/test.txt'
+    deploy_path = 'sentiment_deploy.prototxt'
+    caffemodel_path = 'twitter_finetuned_' + subset + '_iter_180.caffemodel'
+    ground_truth = 'ground_truth/' + subset + '/test.txt'
     instanceList = []
     correctLabels = 0
     incorrectLabels = 0
